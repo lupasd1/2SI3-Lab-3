@@ -169,16 +169,18 @@ void Poly::addPoly(const Poly& p)
                         }
                     }
                     // skip over the current pointer, do not move previous pointer
-                    prevPtr->next = currentPtr->next;
-//                    delete currentPtr;
+                    PolyNode* tempPtr = currentPtr->next;
+                    prevPtr->next = tempPtr;
+                    delete currentPtr;
+                    currentPtr = tempPtr;
                     size--;
 
                 }
                 else {
                     prevPtr = currentPtr;
+                    currentPtr = currentPtr->next;
                 }
                 //move forward
-                currentPtr = currentPtr->next;
                 inputPtr = inputPtr->next;
             }
         }
@@ -198,14 +200,13 @@ void Poly::multiplyMono(int i, double c)
         head->next = NULL;
         degree = -1;
         size = 0;
-        // *** Known issue: memory leak here ***
 
-//        PolyNode* nextPtr;
-//        while (ptr != NULL) {
-//            nextPtr = ptr->next;
-//            delete ptr;
-//            ptr = nextPtr;
-//        }
+        PolyNode* nextPtr;
+        while (ptr != NULL) {
+            nextPtr = ptr->next;
+            delete ptr;
+            ptr = nextPtr;
+        }
         return;
     }
 
@@ -230,19 +231,18 @@ void Poly::duplicate(Poly& outputPoly)
 {
 	PolyNode* currentPtr = head->next;
 
-    // *** Known issue: memory leak here ***
     //takes the first non-dummy node
-//    PolyNode* inputPtr = outputPoly.head->next;
-//    PolyNode* nextPtr;
-//    // clear outputPoly first
-//    while (inputPtr != NULL) {
-//        nextPtr = inputPtr->next;
-//        delete inputPtr;
-//        inputPtr = nextPtr;
-//    }
+    PolyNode* inputPtr = outputPoly.head->next;
+    PolyNode* nextPtr;
+    // clear outputPoly first
+    while (inputPtr != NULL) {
+        nextPtr = inputPtr->next;
+        delete inputPtr;
+        inputPtr = nextPtr;
+    }
     outputPoly.head->next = NULL;
 
-    PolyNode* inputPtr = outputPoly.head;
+    inputPtr = outputPoly.head;
 
     // add each node from this to the end
     while (currentPtr != NULL) {
