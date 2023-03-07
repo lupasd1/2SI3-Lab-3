@@ -1,4 +1,5 @@
 #include "Poly.h"
+#include "BST.h"
 #include <iostream>
 #include <math.h>
 
@@ -221,8 +222,68 @@ void Poly::multiplyMono(int i, double c)
 
 void Poly::multiplyPoly(const Poly& p)
 {
+    if (size == 0 || p.size == 0) {
+        // clear current
+        PolyNode* ptr = head->next;
+        PolyNode* nextPtr;
+        while (ptr != NULL) {
+            nextPtr = ptr->next;
+            delete ptr;
+            ptr = nextPtr;
+        }
+        head->next = NULL;
+        degree = -1;
+        size = 0;
+        return;
+
+    }
+    BST binTree = BST(head->next->deg + p.head->next->deg, 0);
+
+    for (PolyNode* currentPtr = head->next; currentPtr != NULL; currentPtr = currentPtr->next) {
+        for (PolyNode* inputPtr = p.head->next; inputPtr != NULL; inputPtr = inputPtr->next) {
+            binTree.addMono(currentPtr->deg + inputPtr->deg, currentPtr->coeff * inputPtr->coeff);
+        }
+    }
+
+    // clear current
+    PolyNode* ptr = head->next;
+    PolyNode* nextPtr;
+    while (ptr != NULL) {
+        nextPtr = ptr->next;
+        delete ptr;
+        ptr = nextPtr;
+    }
+    head->next = NULL;
+    size = 0;
+
+    BSTNode* treePtr = binTree.getRoot();
+//    BSTNode* prevPtr = treePtr;
+    addBST(treePtr);
+
+    if (head->next != NULL) {
+        degree = head->next->deg;
+    }
+    else {
+        degree = -1;
+    }
+
 
 }
+
+void Poly::addBST(BSTNode* node) {
+    if (node == NULL) {
+        return;
+    }
+    addBST(node->left);
+
+    head->next = new PolyNode(node->deg, node->coeff, head->next);
+    size++;
+//    cout << "Degree: " << node->deg << endl;
+    addBST(node->right);
+
+
+}
+
 
 // time complexity is O(n + m) where n in the input size and m is the current size
 // since n iterations are needed to first clear the input followed by m insertions

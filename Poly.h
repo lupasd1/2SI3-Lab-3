@@ -2,6 +2,7 @@
 #define POLY_H_
 
 #include "PolyNode.h"
+#include "BSTNode.h"
 #include <vector>
 #include <string>
 
@@ -22,6 +23,7 @@ public:
 	void addPoly(const Poly& p);
 	void multiplyMono(int i, double c);
 	void multiplyPoly(const Poly& p);
+    void addBST(BSTNode* node);
 	void duplicate(Poly& outputPoly);
 	int getDegree();
 	int getTermsNo();

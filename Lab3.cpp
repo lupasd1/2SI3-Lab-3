@@ -16,16 +16,18 @@ int main()
     double totalMark = 0;
 
 	TestPoly tp(max_degree, max_coeff, max_eval_degree, max_eval_coeff, max_run, max_size_array);
-//    vector<int> degFirst = {632, 369, 191, 170};
-//    vector<double> coeffFirst = {76, -48, 8, 1};
+//    vector<int> degFirst = {799, 778, 97};
+//    vector<double> coeffFirst = {-85, 53, 39};
 //    Poly First(degFirst, coeffFirst);
 //
-//    vector<int> degSecond = {632, 369, 191, 170};
-//    vector<double> coeffSecond = {-76, 48, -8, -1};
+//    vector<int> degSecond = {722, 289};
+//    vector<double> coeffSecond = {-17, -27};
 //    Poly Second(degSecond, coeffSecond);
-//    First.addPoly(Second);
+//    First.multiplyPoly(Second);
 //    string output = First.toString();
 //    cout << output << endl;
+    //[1521,1500,1088,1067,819,386]
+    //[1445,-901,2295,-1431,-663,-1053]
     tp.testConstructorDefault(totalMark, fullMark);
     tp.testConstructorParameters(totalMark, fullMark);
     tp.testAddMono(totalMark, fullMark);
